@@ -27,7 +27,7 @@ app.post('/api/voiture/new', (req, res, next) => {
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
       .catch(error => res.status(400).json({ error }));
 });
-
+ 
 app.get('/api/voiture/:id', (req, res, next) => {
     Voiture.findOne({ _id: req.params.id })
       .then(voiture => res.status(200).json(voiture))
