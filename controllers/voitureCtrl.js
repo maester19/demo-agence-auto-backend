@@ -38,13 +38,19 @@ module.exports = {
     },
 
     getByName: async (req, res, next) => {
-        await Voiture.findOne({ name: req.params.name })
-        .then(voiture => res.status(200).json({ voiture }))
+        await Voiture.find()
+        .then(voitures => {
+            let cars = []
+            for (var i = voitures.length - 1; i >= 0; i--) {
+                if(voitures[i].title.includes(req.params.name) || voitures[i].description.includes(req.params.name))
+                    cars.push(voitures[i])
+            }
+            res.status(200).json({ cars })
+        })
         .catch(error => res.status(500).json({ error }))
     },
 
     delete: async (req, res, next) => {
-
         await Voiture.findOneAndDelete({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'voiture supprimé !'}))
           .catch(error => res.status(400).json({ error }))
